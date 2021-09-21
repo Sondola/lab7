@@ -1,0 +1,22 @@
+apply plugin: 'application'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+mainClassName = 'ServerMain'
+
+dependencies {
+    implementation project(':common')
+    compile(group: 'org.postgresql', name: 'postgresql', version: '42.2.20')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+compileJava.options.encoding = 'utf-8'

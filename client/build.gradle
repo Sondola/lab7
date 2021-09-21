@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+mainClassName = 'ClientMain'
+
+dependencies {
+    implementation project(':common')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.filter{ it.exists() }.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+compileJava.options.encoding = 'utf-8'
